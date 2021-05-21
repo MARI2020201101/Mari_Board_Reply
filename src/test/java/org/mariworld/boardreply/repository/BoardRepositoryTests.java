@@ -6,6 +6,9 @@ import org.mariworld.boardreply.entity.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.xml.transform.sax.SAXSource;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
@@ -33,5 +36,29 @@ public class BoardRepositoryTests {
             boardRepository.save(board);
             }
         );
+    }
+
+    @Test
+    public void readTest1(){
+        System.out.println(
+                "boardRepository.findById(100L) \n"+
+                boardRepository.findById(100L).get().toString());
+
+    }
+
+    @Test
+    public void joinTest1(){
+        Object result  = boardRepository.getBoardWithWriter(1L);
+        Object[] board = (Object[])result;
+        System.out.println(Arrays.toString(board));
+
+    }
+
+    @Test
+    public void joinTest2(){
+        List<Object[]> result  = boardRepository.getBoardWithReply(1L);
+        for(Object[] o : result){
+            System.out.println(Arrays.toString(o));
+        }
     }
 }
