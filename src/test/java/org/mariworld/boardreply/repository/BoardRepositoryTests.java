@@ -5,6 +5,8 @@ import org.mariworld.boardreply.entity.Board;
 import org.mariworld.boardreply.entity.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import javax.xml.transform.sax.SAXSource;
 import java.util.Arrays;
@@ -60,5 +62,32 @@ public class BoardRepositoryTests {
         for(Object[] o : result){
             System.out.println(Arrays.toString(o));
         }
+    }
+
+    @Test
+    public void joinTest3(){
+        Page<Object[]> result  = boardRepository.getBoardWithReplyCount(PageRequest.of(0,10));
+        result.get().forEach(
+                row->{
+                    Object[] arr = (Object[]) row;
+                    System.out.println(Arrays.toString(arr));
+                }
+
+        );
+    }
+    @Test
+    public void joinTest4(){
+        Object result = boardRepository.getBoardByBno(1L);
+        Object[] arr = (Object[])result;
+        Arrays.stream(arr).forEach(System.out::println);
+    }
+
+    @Test
+    public void joinTest5(){
+        Object[] result = boardRepository.getBoardByBnoTest(1L);
+
+        System.out.println(result[0]);
+        System.out.println(result[1]);
+        System.out.println(result[2]);
     }
 }
