@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import javax.xml.transform.sax.SAXSource;
 import java.util.Arrays;
@@ -89,5 +90,18 @@ public class BoardRepositoryTests {
         System.out.println(result[0]);
         System.out.println(result[1]);
         System.out.println(result[2]);
+    }
+
+    @Test
+    public void searchTest1(){
+        boardRepository.search1();
+    }
+
+    @Test
+    public void searchTest2(){
+        String type ="t";
+        String keyword ="1";
+        PageRequest pageRequest = PageRequest.of(0,10, Sort.by("bno").descending());
+        boardRepository.searchPage(null,null,pageRequest);
     }
 }

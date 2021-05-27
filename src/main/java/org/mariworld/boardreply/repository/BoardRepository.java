@@ -1,6 +1,7 @@
 package org.mariworld.boardreply.repository;
 
 import org.mariworld.boardreply.entity.Board;
+import org.mariworld.boardreply.repository.search.SearchBoardRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface BoardRepository extends JpaRepository<Board, Long> {
+public interface BoardRepository extends JpaRepository<Board, Long>, SearchBoardRepository {
     //member를 조인해서 가져온다.
     @Query("select b, w from Board b left join b.writer w where b.bno =:bno")
     Object getBoardWithWriter(@Param("bno") Long bno);
