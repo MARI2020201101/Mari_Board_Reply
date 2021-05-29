@@ -104,4 +104,12 @@ public class BoardRepositoryTests {
         PageRequest pageRequest = PageRequest.of(0,10, Sort.by("bno").descending());
         boardRepository.searchPage(null,null,pageRequest);
     }
+
+    @Test
+    public void searchTest3(){
+        String type ="t";
+        String keyword ="1";
+        PageRequest pageRequest = PageRequest.of(0,10, Sort.by("bno").descending());
+        boardRepository.searchPage(type,keyword,pageRequest);
+    }
 }

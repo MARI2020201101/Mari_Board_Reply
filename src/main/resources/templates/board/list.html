@@ -98,7 +98,15 @@
             if(msg!=null){
                 $(".modal").modal();
             }
-
+            var searchForm = $("#searchForm");
+            $(".btn-search").on("click", function(e){
+                searchForm.submit();
+            });
+            $(".btn-clear").on("click", function(e){
+                searchForm.empty();
+                console.log(searchForm.html());
+                searchForm.submit();
+            });
         </script>
     </th:block>
 

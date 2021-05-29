@@ -13,11 +13,14 @@ import org.mariworld.boardreply.entity.QBoard;
 import org.mariworld.boardreply.entity.QMember;
 import org.mariworld.boardreply.entity.QReply;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport implements SearchBoardRepository {
@@ -63,9 +66,9 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
         jpqlQuery.leftJoin(reply).on(reply.board.eq(board));
         jpqlQuery.leftJoin(member).on(board.writer.eq(member));
 
-        JPQLQuery<Tuple> tuple = jpqlQuery.select(board,member.email, reply.count());
+        JPQLQuery<Tuple> tuple = jpqlQuery.select(board,member, reply.count());
         //검색조건
-        /*select Board.*, Member.email, count(Reply)
+        /*select Board.*, Member, count(Reply)
          from Board
             join Member on~
         *   join Reply on~
@@ -124,6 +127,16 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
         result.forEach(System.out::println);
 
         Long count = tuple.fetchCount();
-        return null;
+
+        /*
+        * Tuple(레코드)를 배열[]로 만들고
+        *   -> 그걸 다시 List로 감싼다.
+        *
+        *  Page는 Collections 확장타입이고.
+        * 그 안에 배열 Object[]가 되는것!!
+        * */
+        return new PageImpl<Object[]>(
+                result.stream().map(t->t.toArray()).collect(Collectors.toList())
+                ,pageable,count);
     }
 }

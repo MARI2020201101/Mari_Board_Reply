@@ -39,4 +39,9 @@ public class ReplyRepositoryTests {
         System.out.println(reply.getBoard());
 
     }
+    @Test
+    public void getListTest(){
+        Board board = Board.builder().bno(100L).build();
+        replyRepository.getReplyByBoardOrderByRno(board);
+    }
 }
