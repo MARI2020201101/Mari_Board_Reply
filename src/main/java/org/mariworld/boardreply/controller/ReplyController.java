@@ -1,6 +1,7 @@
 package org.mariworld.boardreply.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.mariworld.boardreply.dto.ReplyDTO;
 import org.mariworld.boardreply.entity.Reply;
 import org.mariworld.boardreply.service.ReplyService;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/replies")
+@Slf4j
 public class ReplyController {
     private final ReplyService replyService;
 
@@ -27,5 +29,18 @@ public class ReplyController {
     public ResponseEntity<Long> register(@RequestBody ReplyDTO dto){
         Long rno = replyService.register(dto);
         return new ResponseEntity<>(rno, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{rno}")
+    public ResponseEntity<String> delete(@PathVariable("rno") Long rno){
+        replyService.remove(rno);
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
+    @PutMapping("/{rno}")
+    public ResponseEntity<String> modify(@RequestBody ReplyDTO dto){
+        log.info("\n modified dto : " + dto);
+        replyService.modify(dto);
+        return new ResponseEntity<>("success", HttpStatus.OK);
     }
 }
